@@ -1,8 +1,11 @@
 
-<header><p>Angular Life Cycle [{{name}}]</p></header>
-<nav>Links:</nav>
-<article>Hey. Can you see this?</article>
+<header><p>{{name}}</p></header>
+<nav>
+  Navigation:<br>
+  <a routerLink = "/spy">OnDestroy</a>
+</nav>
+<article><router-outlet></router-outlet></article>
 <aside>
-  <button (click)="order = logger.clear()">Clear Log</button>
+  <button (click)="logger.clear()">Clear Log</button><br><br>
   <ul *ngFor="let a of logger.logs">{{a}}</ul>
 </aside>

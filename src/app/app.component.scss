@@ -10,14 +10,14 @@ article {
    display:block;
    float: left;
    height: 10000px;
-   width: 70%;
+   width: 60%;
    background-color:yellow;
    text-align: center;
 }
 nav {
    display:block;
    float: left;
-   width: 15%;
+   width: 20%;
    height: 10000px;
    background-color:lime;
    text-align:center;
@@ -25,18 +25,16 @@ nav {
 aside {
    display:block;
    float: right;
-   right: 15%;
-   width: 15%;
+   width: 20%;
    height: 10000px;
    background-color:orange;
    text-align:center;
 }
-
 p{
 	margin-top:0px;
 	margin-bottom:0px;
 	}
 ul{
 	margin-top:0px;
-	margin-left:-50%;
-	}
+	margin-left:0%;
+}

@@ -12,8 +12,7 @@ import {
 import { Component, Input } from '@angular/core';
 import { LoggerService }    from './logger.service';
 
-let order = 1;
-let happens = 0;
+
 
 @Component({
   selector: 'app-root',
@@ -21,20 +20,34 @@ let happens = 0;
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements
- OnInit,OnChanges /*, DoCheck,
+ OnInit,OnChanges , DoCheck,
 AfterContentInit, AfterContentChecked,
-AfterViewInit, AfterViewChecked, OnDestroy*/ {
-
+AfterViewInit, AfterViewChecked, OnDestroy {
+  name = "Angular Lifecycle hooks";
   ngOnInit(){
-    this.logIt("OnInit");
+    this.logger.log("OnInit");
   }
   ngOnChanges(){
-    this.logIt("OnChanges");
+    this.logger.log("OnChanges");
+  }
+  ngDoCheck(){
+    this.logger.log("DoCheck");
+  }
+  ngAfterContentInit(){
+    this.logger.log("AfterContentInit");
+  }
+  ngAfterContentChecked(){
+    this.logger.log("AfterContentChecked");
+  }
+  ngAfterViewInit(){
+    this.logger.log("AfterViewInit");
+  }
+  ngAfterViewChecked(){
+    this.logger.log("AfterViewChecked");
+  }
+  ngOnDestroy(){
+    this.logger.log("OnDestroy");
   }
   constructor(private logger:LoggerService){}
-  logIt(msg: string) {
-    if(msg=="clear")return this.logger.clear();
-    order += this.logger.log(`#${order} ${msg}`);
-  }
 
 }

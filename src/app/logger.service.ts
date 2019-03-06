@@ -10,14 +10,15 @@ export class LoggerService {
 
   log(msg: string)  {
     if (msg === this.prevMsg) {
+
       // Repeat message; update last log entry with count.
-      this.logs[this.logs.length - 1] = msg + ` (${this.prevMsgCount += 1}x)`;
+      this.logs[this.logs.length - 1] =  `#${this.logs.length-1} ${msg} (${this.prevMsgCount += 1}x)`;
       return 0;
     } else {
       // New message; log it.
       this.prevMsg = msg;
       this.prevMsgCount = 1;
-      this.logs.push(msg);
+      this.logs.push(`#${this.logs.length} ${msg}`);
       return 1;
     }
   }
