@@ -31,7 +31,11 @@ export class DoCheckComponent implements DoCheck {
   oldPower = '';
   oldLogLength = 0;
   noChangeCount = 0;
-
+/*
+  Use the DoCheck hook to detect and act upon changes that Angular doesn't catch on its own.
+  Use this method to detect a change that Angular overlooked.
+  The DoCheck sample extends the OnChanges sample with the following ngDoCheck() hook:
+*/
   ngDoCheck() {
 
     if (this.hero.name !== this.oldHeroName) {
@@ -62,8 +66,20 @@ export class DoCheckComponent implements DoCheck {
     }
 
     this.changeDetected = false;
+    /*
+    This code inspects certain values of interest, capturing and comparing their current state against previous values.
+    It writes a special message to the log when there are no substantive changes to the hero or the power so you can see how often DoCheck is called.
+    The results are illuminating:
+    */
   }
-
+/*
+While the ngDoCheck() hook can detect when the hero's name has changed, it has a frightful cost.
+This hook is called with enormous frequency—after every change detection cycle no matter where the change occurred.
+It's called over twenty times in this example before the user can do anything.
+Most of these initial checks are triggered by Angular's first rendering of unrelated data elsewhere on the page.
+Mere mousing into another <input> triggers a call. Relatively few calls reveal actual changes to pertinent data.
+Clearly our implementation must be very lightweight or the user experience suffers.
+*/
   reset() {
     this.changeDetected = true;
     this.changeLog = [];

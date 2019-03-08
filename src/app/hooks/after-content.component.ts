@@ -15,16 +15,34 @@ export class ChildComponent {
 //////////////////////
 @Component({
   selector: 'after-content',
+
   template: `
     <div>-- projected content begins --</div>
       <ng-content></ng-content>
     <div>-- projected content ends --</div>`
+    /*
+    The <ng-content> tag is a placeholder for the external content.
+    It tells Angular where to insert that content.
+    In this case, the projected content is the <app-child> from the parent.
+
+    The telltale signs of content projection are twofold:
+      - HTML between component element tags.
+      - The presence of <ng-content> tags in the component's template.
+    */
    + `
     <p *ngIf="comment" class="comment">
       {{comment}}
     </p>
   `
 })
+/*
+AfterContent hooks:
+AfterContent hooks are similar to the AfterView hooks.
+The key difference is in the child component.
+The AfterView hooks concern ViewChildren, the child components whose element tags appear within the component's template.
+The AfterContent hooks concern ContentChildren, the child components that Angular projected into the component.
+The following AfterContent hooks take action based on changing values in a content child, which can only be reached by querying for them via the property decorated with @ContentChild.
+*/
 export class AfterContentComponent implements AfterContentChecked, AfterContentInit {
   private prevHero = '';
   comment = '';
@@ -65,7 +83,13 @@ export class AfterContentComponent implements AfterContentChecked, AfterContentI
   }
   // ...
 }
-
+/*
+No unidirectional flow worries with AfterContent
+This component's doSomething() method update's the component's data-bound comment property immediately. There's no need to wait.
+Recall that Angular calls both AfterContent hooks before calling either of the AfterView hooks.
+Angular completes composition of the projected content before finishing the composition of this component's view.
+There is a small window between the AfterContent... and AfterView... hooks to modify the host view.
+*/
 //////////////
 @Component({
   selector: 'after-content-parent',
@@ -74,9 +98,24 @@ export class AfterContentComponent implements AfterContentChecked, AfterContentI
     <h2>AfterContent</h2>
 
     <div *ngIf="show">` +
+      /*
+      The AfterContent sample explores the AfterContentInit() and AfterContentChecked() hooks that Angular calls after Angular projects external content into the component.
+
+      Content projection:
+      Content projection is a way to import HTML content from outside the component and insert that content into the component's template in a designated spot.
+      AngularJS developers know this technique as transclusion.
+      Consider this variation on the previous AfterView example.
+      This time, instead of including the child view within the template, it imports the content from the AfterContentComponent's parent.
+      Here's the parent's template:
+      */
      `<after-content>
         <app-child></app-child>
       </after-content>`
+        /*
+          Notice that the <app-child> tag is tucked between the <after-content> tags.
+          Never put content between a component's element tags unless you intend to project that content into the component.
+          Now look at the component's template above
+        */
 + `</div>
 
     <h4>-- AfterContent Logs --</h4>

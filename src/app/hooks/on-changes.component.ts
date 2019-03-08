@@ -24,18 +24,38 @@ class Hero {
   ]
 })
 export class OnChangesComponent implements OnChanges {
+/*
+  The ngOnChanges() method takes an object that maps each changed property name to a SimpleChange object holding the current and previous property values.
+  This hook iterates over the changed properties and logs them.
+  The example component, OnChangesComponent, has two input properties: hero and power.
+  The host OnChangesParentComponent binds to them like this:
+    src/app/on-changes-parent.component.html content_copy
+    <on-changes [hero]="hero" [power]="power"></on-changes>
+*/
   @Input() hero: Hero;
   @Input() power: string;
 
   changeLog: string[] = [];
-
+  /*
+    Angular calls its ngOnChanges() method whenever it detects changes to input properties of the component (or directive).
+    This example monitors the OnChanges hook.
+  */
   ngOnChanges(changes: SimpleChanges) {
+
     for (let propName in changes) {
       let chng = changes[propName];
       let cur  = JSON.stringify(chng.currentValue);
       let prev = JSON.stringify(chng.previousValue);
       this.changeLog.push(`${propName}: currentValue = ${cur}, previousValue = ${prev}`);
     }
+    /*
+    The log entries appear as the string value of the power property changes. But the ngOnChanges does not catch changes to hero.name That's surprising at first.
+
+    Angular only calls the hook when the value of the input property changes.
+    The value of the hero property is the reference to the hero object.
+    Angular doesn't care that the hero's own name property changed.
+    The hero object reference didn't change so, from Angular's perspective, there is no change to report!
+    */
   }
 
   reset() { this.changeLog = []; }
